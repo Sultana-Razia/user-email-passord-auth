@@ -1,10 +1,12 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
 import { useState } from "react";
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 const Register = () => {
     const [registerError, setRegisterError] = useState('');
     const [success, setSuccess] = useState('')
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleRegister = e => {
         e.preventDefault();
@@ -19,6 +21,10 @@ const Register = () => {
 
         if (password.length < 6) {
             setRegisterError('Password Should be at least 6 characters or longer');
+            return;
+        }
+        else if (!/[A-Z]/.test(password)) {
+            setRegisterError('Your password should have at least one upper case character');
             return;
         }
 
@@ -58,10 +64,18 @@ const Register = () => {
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="password" name="password" placeholder="password" className="input input-bordered" required />
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password" placeholder="password" className="input input-bordered" required />
                             <label className="label">
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label>
+                            <span onClick={() => setShowPassword(!showPassword)}>
+                                {
+                                    showPassword ? <FaEyeSlash /> : <FaEye />
+
+                                }
+                            </span>
                         </div>
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Register</button>
