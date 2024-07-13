@@ -12,8 +12,10 @@ const Register = () => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
+        const checkbox = e.target.terms.checked;
         console.log(email);
         console.log(password);
+        console.log(checkbox);
 
         //reset error
         setRegisterError('');
@@ -25,6 +27,10 @@ const Register = () => {
         }
         else if (!/[A-Z]/.test(password)) {
             setRegisterError('Your password should have at least one upper case character');
+            return;
+        }
+        else if (!checkbox) {
+            setRegisterError('Please accept our terms and conditions');
             return;
         }
 
@@ -60,23 +66,30 @@ const Register = () => {
                             </label>
                             <input type="email" name="email" placeholder="email" className="input input-bordered" required />
                         </div>
-                        <div className="form-control">
+                        <div className="form-control relative border">
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
                             <input
                                 type={showPassword ? "text" : "password"}
                                 name="password" placeholder="password" className="input input-bordered" required />
-                            <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                            </label>
-                            <span onClick={() => setShowPassword(!showPassword)}>
+
+                            <span className="absolute top-12 right-4 text-2xl"
+                                onClick={() => setShowPassword(!showPassword)}>
                                 {
                                     showPassword ? <FaEyeSlash /> : <FaEye />
 
                                 }
                             </span>
                         </div>
+
+                        <div className="flex items-center mt-4">
+                            <input type="checkbox" name="terms" defaultChecked className="checkbox" />
+                            <label htmlFor="terms" className="label">
+                                <span className="label-text">Accept our Terms and Conditions</span>
+                            </label>
+                        </div>
+
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Register</button>
                         </div>
